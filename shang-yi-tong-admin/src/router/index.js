@@ -38,24 +38,32 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/example',
+    path: '/hospSet',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
+    redirect: '/hospSet/list',
+    name: '医院设置管理',
+    meta: { title: '医院设置管理', icon: 'example' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'list',
+        name: '医院设置列表',
+        component: () => import('@/views/hospset/list'),
+        meta: { title: '医院设置列表', icon: 'table' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'add',
+        name: '医院添加列表',
+        component: () => import('@/views/hospset/add'),
+        meta: { title: '医院添加列表', icon: 'tree' }
+      },
+      {
+        path: 'edit/:id',
+        name: '医院添加',
+        component: () => import('@/views/hospset/add'),
+        meta: { title: '医院设置更改', icon: 'tree' },
+        hidden: true
       }
+
     ]
   },
 

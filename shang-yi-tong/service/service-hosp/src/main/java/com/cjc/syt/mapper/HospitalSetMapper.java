@@ -2,6 +2,7 @@ package com.cjc.syt.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.cjc.syt.model.hosp.HospitalSet;
+import org.apache.ibatis.annotations.Mapper;
 
 
 /**
@@ -12,6 +13,7 @@ import com.cjc.syt.model.hosp.HospitalSet;
  * @author jobob
  * @since 2021-03-22
  */
+@Mapper
 public interface HospitalSetMapper extends BaseMapper<HospitalSet> {
 
 }

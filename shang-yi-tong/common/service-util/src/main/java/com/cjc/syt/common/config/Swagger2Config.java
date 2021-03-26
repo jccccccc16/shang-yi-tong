@@ -1,10 +1,9 @@
 package com.cjc.syt.common.config;
-
-import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
@@ -26,7 +25,8 @@ public class Swagger2Config {
                 .apiInfo(webApiInfo())
                 .select()
                 //只显示api路径下的页面
-                .paths(Predicates.and(PathSelectors.regex("/api/.*")))
+                .apis(RequestHandlerSelectors.basePackage("com.cjc.syt.controller.api"))
+                .paths(PathSelectors.any())
                 .build();
 
     }
@@ -39,7 +39,8 @@ public class Swagger2Config {
                 .apiInfo(adminApiInfo())
                 .select()
                 //只显示admin路径下的页面
-                .paths(Predicates.and(PathSelectors.regex("/admin/.*")))
+                .apis(RequestHandlerSelectors.basePackage("com.cjc.syt.controller"))
+                .paths(PathSelectors.any())
                 .build();
 
     }
