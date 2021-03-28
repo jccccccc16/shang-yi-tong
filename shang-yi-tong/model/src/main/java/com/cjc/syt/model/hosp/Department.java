@@ -1,16 +1,12 @@
 package com.cjc.syt.model.hosp;
 
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.cjc.syt.model.base.BaseMongoEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.List;
 
 /**
  * <p>
@@ -23,7 +19,7 @@ import java.util.List;
 @ApiModel(description = "Department")
 @Document("Department")
 public class Department extends BaseMongoEntity {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "医院编号")

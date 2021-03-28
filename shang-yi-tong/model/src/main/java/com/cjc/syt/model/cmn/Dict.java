@@ -26,6 +26,7 @@ public class Dict {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "id")
+    @TableField("id")
     private Long id;
 
     @ApiModelProperty(value = "创建时间")

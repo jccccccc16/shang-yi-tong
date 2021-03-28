@@ -1,5 +1,6 @@
 package com.cjc.syt.vo.hosp;
 
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -19,7 +20,7 @@ import java.util.Date;
 @Data
 @ApiModel(description = "可预约排班规则数据")
 public class BookingScheduleRuleVo {
-	
+
 	@ApiModelProperty(value = "可预约日期")
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date workDate;

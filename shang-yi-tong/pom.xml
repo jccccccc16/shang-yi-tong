@@ -8,6 +8,7 @@
         <module>model</module>
         <module>service</module>
         <module>gennerator</module>
+        <module>service-cmn</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

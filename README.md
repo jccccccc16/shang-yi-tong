@@ -737,6 +737,8 @@ data(){
 
 判断是否是更新操作：
 
+可通过`$route.params.id`去获取url的参数
+
 ```js
  created(){
     // 判断url是否有参数id
@@ -783,5 +785,569 @@ addOrUpdate(){
 <el-form-item>
         <el-button type="primary" @click="addOrUpdate()">保存</el-button>
       </el-form-item>
+```
+
+
+
+## 10.数据字典列表显示
+
+系统中一些常用的**分类数据（有等级）**和**固定数据**，比如，地区，民族。有层级关系的数据，在页面中按层级显示
+
+### 10.1 医院等级显示
+
+#### 10.1.1 后端接口开发
+
+根据id查出该数据的子数据
+
+service层
+
+将子数据查出，并且判断子数据是否有子数据，如果有hasChilren为true
+
+```java
+@Service
+public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
+
+
+    @Override
+    public List<Dict> findChildrenData(Long id) {
+        QueryWrapper<Dict> dictQueryWrapper = new QueryWrapper<>();
+        dictQueryWrapper.eq("parent_id", id);
+        List<Dict> dictList = baseMapper.selectList(dictQueryWrapper);
+
+        // 设置对象中的hasChildren字段
+        for (Dict dict : dictList) {
+            Long dictId = dict.getId();
+            boolean hasChildren = hasChildren(dictId);
+            dict.setHasChildren(hasChildren);
+        }
+
+        return dictList;
+    }
+
+    /**
+     * 是否有子数据
+     * @param id
+     * @return
+     */
+    private boolean hasChildren(Long id){
+
+        QueryWrapper<Dict> wrapper = new QueryWrapper<>();
+        wrapper.eq("parent_id",id);
+        Integer count = baseMapper.selectCount(wrapper);
+        return count > 0;
+
+
+    }
+}
+
+```
+
+
+
+#### 10.1.2 编写页面显示
+
+element-ui中的树形table
+
+主要的部分：
+
+- 指定`row-key = 'id'`为指定我们数据中的id为row-key，
+
+- load，指定加载子数据的方法
+
+- `:tree-props="{children: 'children', hasChildren: 'hasChildren'}">`指定table中的children为我们数据中的`children`字段，同理hasChildren，element-ui通过`hasChildren`去判断是否显示为可点击展开的项，children来获取数据的`children`来进行展示
+
+```vue
+ <el-table
+      :data="list"
+      style="width: 100%"
+      row-key="id"
+      border
+      lazy
+      :load="getChildren"
+      :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+
+      <el-table-column label="名称" width="230" align="left">
+        <template slot-scope="scope">
+          <span>{{ scope.row.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="编码" width="220">
+        <template slot-scope="{row}">
+          {{ row.dictCode }}
+        </template>
+      </el-table-column>
+      <el-table-column label="值" width="230" align="left">
+        <template slot-scope="scope">
+          <span>{{ scope.row.value }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="创建时间" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.createTime }}</span>
+        </template>
+      </el-table-column>
+    </el-table>
+```
+
+
+
+```js
+export default {
+  data() {
+    return {
+      dialogImportVisible:false,//设置弹框是否弹出
+      list:[] //数据字典列表数组
+    }
+  },
+  created() {
+    // 显示一级列表
+    this.getDictList(1)
+  },
+  methods: {
+    //导入数据字典
+    importData() {
+      this.dialogImportVisible = true
+    },
+    //上传成功调用
+    onUploadSuccess() {
+      //关闭弹框
+      this.dialogImportVisible = false
+      //刷新页面
+      this.getDictList(1)
+    },
+    //导出数据字典
+    exportData() {
+      //调用导出接口
+      window.location.href="http://localhost:8202/admin/cmn/dict/exportData"
+    },
+    //数据字典列表
+    getDictList(id) {
+      dict.dictList(id)
+        .then(response => {
+          this.list = response.data
+        })
+    },
+      // 获取子节点
+    getChildren(tree, treeNode, resolve) {
+	// tree.id 为获取row-key，也就是我们指定的数据id
+      dict.getDictList(tree.id).then(response => {
+        resolve(response.data)
+      })
+    }
+  }
+}
+</script>
+```
+
+但是页面中的数据点不开，发现element-ui的版本为
+
+```json
+"dependencies": {
+    "axios": "0.18.0",
+    "element-ui": "2.4.6",
+    "js-cookie": "2.2.0",
+    "normalize.css": "7.0.0",
+    "nprogress": "0.2.0",
+    "vue": "2.5.17",
+    "vue-router": "3.0.1",
+    "vuex": "3.0.1"
+  },
+```
+
+更换高版本。
+
+高版本滴行！
+
+#### 10.1.3 遇到端口错误
+
+由于之前我们是使用的是service-hosp模块，端口号为8201，在前端中，我们在config.dev.env.js中的设置为BASE_API: `'"http://localhost:8201/"',`
+
+，而现在我们使用的模块是端口号为8202的service-cmn模块。
+
+多个端口怎么办？
+
+使用unix，但放到后面解决
+
+
+
+## 11.easyExcel
+
+将数据生成excel；读取excel中的数据
+
+### 11.1 导出数据
+
+#### 11.1.1 编写后端接口
+
+```java
+/**
+     * 导出数据字典接口
+     * @return
+     */
+    @GetMapping("/exportData")
+    public void exportDict(HttpServletResponse response) throws IOException {
+        // 设置响应头
+        response.setContentType("application/vnd.ms-excel");
+        response.setCharacterEncoding("utf-8");
+        String filename = URLEncoder.encode("数据字典", "UTF-8");
+        // Content-disposition 以下载的方式打开
+        response.setHeader("Content-disposition","attachment;filename="+filename+".xlsx");
+        // 查询数据
+        BaseMapper<Dict> baseMapper = dictService.getBaseMapper();
+        List<Dict> dictList = baseMapper.selectList(null);
+        log.info("查询的数据为：dictList="+dictList);
+        // 封装为DICTEevo
+        List<DictEeVo> dictEeVoList = new ArrayList<>();
+        for (Dict dict : dictList) {
+            DictEeVo dictEeVo = new DictEeVo();
+            BeanUtils.copyProperties(dict,dictEeVo);
+            dictEeVoList.add(dictEeVo);
+        }
+        log.info("转换为dictEeVo dictEeVoList = "+dictEeVoList);
+        // 写出excel数据
+        EasyExcel.write(response.getOutputStream(), DictEeVo.class).sheet("dict").doWrite(dictEeVoList);
+
+    }
+```
+
+#### 11.1.2 前端调用
+
+```js
+//导出数据字典
+    exportData() {
+      //调用导出接口
+      window.location.href="http://localhost:8202/admin/cmn/dict/exportData"
+    },
+```
+
+
+
+### 11.2 导入数据
+
+#### 11.2.1 编写后端接口
+
+需要自定义一个listener，listener决定如何去处理读取的每一行数据
+
+```java
+    /**
+     * 导入数据
+     * @param file
+     */
+    @Override
+    public void importData(MultipartFile file) throws IOException {
+
+        EasyExcel.read(file.getInputStream(),DictEeVo.class,new DictListener(dictMapper)).sheet().doRead();;
+
+    }
+```
+
+listener：
+
+```java
+@Slf4j
+public class DictListener extends AnalysisEventListener<DictEeVo> {
+
+    private int count = 0;
+
+    private DictMapper dictMapper;
+
+    public DictListener(DictMapper dictMapper){
+        this.dictMapper = dictMapper;
+    }
+
+    /**
+     * 读取一行都会调用该方法
+     * 读取数据后如何做
+     * @param dictEeVo
+     * @param analysisContext
+     */
+    @Override
+    public void invoke(DictEeVo dictEeVo, AnalysisContext analysisContext) {
+        count = count + 1;
+        Dict dict = new Dict();
+        BeanUtils.copyProperties(dictEeVo,dict);
+        dict.setIsDeleted(0);
+        dictMapper.insert(dict);
+        log.info("插入第 "+ count +" 行数据 dict："+dict.toString());
+    }
+
+    @Override
+    public void doAfterAllAnalysed(AnalysisContext analysisContext) {
+
+    }
+}
+
+```
+
+
+
+
+
+#### 11.2.2 前端
+
+我们希望点击导入按钮，会弹出一个选择文件的框，当上传完文件时会自动关闭.
+
+element-ui的一个组件：
+
+`:visible.sync="dialogImportVisible"`为是否显示
+
+`onUploadSuccess`为上传成功后的回调方法
+
+`:action="'http://localhost:8202/admin/cmn/dict/importData'"`为后端处理路径
+
+```vue
+// 上传按钮
+<el-button type="text" @click="importData"><i class="fa fa-plus"/> 导入</el-button>
+
+// 上传文件框
+<el-dialog title="导入" :visible.sync="dialogImportVisible" width="480px">
+      <el-form label-position="right" label-width="170px">
+
+        <el-form-item label="文件">
+
+          <el-upload
+            :multiple="false"
+            :on-success="onUploadSuccess"
+            :action="'http://localhost:8202/admin/cmn/dict/importData'"
+            class="upload-demo">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传excel文件，且不超过500kb</div>
+          </el-upload>
+
+        </el-form-item>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogImportVisible = false">
+          取消
+        </el-button>
+      </div>
+    </el-dialog>
+```
+
+```JS
+data() {
+    return {
+      dialogImportVisible: false,//设置弹框是否弹出
+      list:[] //数据字典列表数组
+    }
+  },
+methods: {
+    //导入数据字典
+    importData() {
+      this.dialogImportVisible = true // 显示输入框
+    },
+    //上传成功调用
+    onUploadSuccess() {
+      //关闭弹框
+      this.dialogImportVisible = false
+      //刷新页面
+      this.getDictList(1)
+    },
+}
+      
+      
+```
+
+
+
+## 12.spring cache + reids 缓存数据
+
+由于我们的缓存在其他的模块也会用到，所以我们将缓存加入common模块中
+
+依赖：
+
+```xml
+<!--        reis-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+<!--        spring集成redis所需的-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.6.0</version>
+        </dependency>
+```
+
+配置类是相对固定的，直接看代码，不用写
+
+缓存的几个注解
+
+### 12.1 操作
+
+加入缓存
+
+`@Cacheable(value="dict",keyGenerator = "keyGenerator")`
+
+value="dict" 为key以dict开头，+ keyGenerator 生成的key
+
+```java
+	@Override
+    @Cacheable(value="dict",keyGenerator = "keyGenerator")
+    public List<Dict> findChildrenData(Long id) {
+        QueryWrapper<Dict> dictQueryWrapper = new QueryWrapper<>();
+        dictQueryWrapper.eq("parent_id", id);
+        List<Dict> dictList = baseMapper.selectList(dictQueryWrapper);
+
+        // 设置对象中的hasChildren字段
+        for (Dict dict : dictList) {
+            Long dictId = dict.getId();
+            boolean hasChildren = hasChildren(dictId);
+            dict.setHasChildren(hasChildren);
+        }
+
+        return dictList;
+    }
+```
+
+
+
+更新操作，将缓存清空
+
+`@CacheEvict(value = "dict",allEntries = true)`为：value="dict" ，以dict开头的缓存清空
+
+```java
+    /**
+     * 导入数据
+     * @param file
+     */
+    @Override
+    @CacheEvict(value = "dict",allEntries = true)
+    public void importData(MultipartFile file) throws IOException {
+
+        EasyExcel.read(file.getInputStream(),DictEeVo.class,new DictListener(dictMapper)).sheet().doRead();;
+
+    }
+```
+
+
+
+## 13.配置nginx
+
+后端网关配置
+
+下载uginx
+
+### 13.1 uginx.conf配置文件
+
+打开uginx.conf配置文件
+
+`listen`为对外暴露的端口号
+
+`location`配置url映射到那一个ip:端口号上
+
+比如：
+
+路径中包含hosp的路径，就会被代理到`http://localhost:8021`中
+
+```
+location ~/hosp/{
+
+	proxy_pass http://localhost:8021
+
+}
+```
+
+
+
+```
+ server {
+        listen       80;
+        server_name  localhost;
+
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+
+        location / {
+            root   html;
+            index  index.html index.htm;
+        }
+
+        #error_page  404              /404.html;
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+
+        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+        #
+        #location ~ \.php$ {
+        #    proxy_pass   http://127.0.0.1;
+        #}
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        #location ~ \.php$ {
+        #    root           html;
+        #    fastcgi_pass   127.0.0.1:9000;
+        #    fastcgi_index  index.php;
+        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+        #    include        fastcgi_params;
+        #}
+
+        # deny access to .htaccess files, if Apache's document root
+        # concurs with nginx's one
+        #
+        #location ~ /\.ht {
+        #    deny  all;
+        #}
+    }
+
+
+```
+
+
+
+在http添加一个server
+
+```
+ server {
+        listen       80;
+        server_name  localhost;
+
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+
+        #location / {
+           # root   html;
+           # index  index.html index.htm;
+       # }
+
+       location ~/hosp/{
+	proxy_pass http://localhost:8201;
+       }
+
+       localtion ~/cmn/{
+       	proxy_pass http://localhost:8202;
+       }
+
+```
+
+### 13.2 启动uginx
+
+windows版使用cmd在目录下输入ugiunx.exe启动
+
+### 13.3 修改前端配置
+
+由于我们uginx配置对外暴露的端口号为80
+
+在config.dev.env.js中，修改为
+
+```js
+module.exports = merge(prodEnv, {
+  NODE_ENV: '"development"',
+  //123
+  // BASE_API: '"https://easy-mock.com/mock/5950a2419adc231f356a6636/vue-admin"',
+  // BASE_API: '"http://localhost:8202/"',
+    BASE_API: '"http://localhost/"',
+})
+
 ```
 
