@@ -8,7 +8,8 @@
         <module>model</module>
         <module>service</module>
         <module>gennerator</module>
-        <module>service-cmn</module>
+        <module>service_client</module>
+        <module>service_cmn_client</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -37,10 +38,10 @@
         <aliyun.version>4.1.1</aliyun.version>
         <oss.version>3.9.1</oss.version>
         <jodatime.version>2.10.1</jodatime.version>
+        <feign.version>3.0.2</feign.version>
     </properties>
     <dependencyManagement>
         <dependencies>
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-dependencies</artifactId>

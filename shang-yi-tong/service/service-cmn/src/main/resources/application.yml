@@ -5,8 +5,6 @@ spring:
   application:
     name: service-cmn
 
-
-
   # 数据源配置
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -71,11 +69,17 @@ spring:
     port: 5672
     username: guest
     password: guest
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
 
 
 mybatis-plus:
   #配置Mapper映射文件
   mapper-locations: classpath*:/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: false
 
 #开启sentinel
 feign:

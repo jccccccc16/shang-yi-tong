@@ -1,6 +1,7 @@
 package com.cjc.syt.hosp.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cjc.syt.model.hosp.Hospital;
 import com.cjc.syt.model.hosp.HospitalSet;
 
 
@@ -13,5 +14,8 @@ import com.cjc.syt.model.hosp.HospitalSet;
  * @since 2021-03-22
  */
 public interface IHospitalSetService extends IService<HospitalSet> {
+
+    String getSignKey(String hoscode);
+
 
 }

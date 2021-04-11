@@ -1,3 +1,5 @@
+预约挂号平台
+
 ## 1.vue项目的目录结构
 
 笔记/教案/day04中有详细的图
@@ -17,7 +19,7 @@
 编写router
 
 ```js
-{
+						{
     path: '/hospSet',
     component: Layout,
     redirect: '/hospSet/list',
@@ -1350,4 +1352,933 @@ module.exports = merge(prodEnv, {
 })
 
 ```
+
+
+
+## 14.mongodb
+
+### 14.1 安装mongodb
+
+使用docker安装mongodb
+
+`docker pull mongo:latest`
+
+`docker run -d --restart=always -p 27017:27017 --name mymongo  -v /data/db:/data/db/ -d mongo`
+
+`docker exec -it name /bin/bash`
+
+`mongo`进入操作
+
+### 14.2 几个概念与基本数据类型
+
+#### 14.2.1 概念
+
+对象叫做文档
+
+不管我们学习什么数据库都应该学习其中的基础概念，在mongodb中基本的概念是文档、集合、数据库，下面我们挨个介绍。
+
+下表将帮助您更容易理解Mongo中的一些概念：
+
+| SQL术语/概念 | MongoDB术语/概念 | 解释/说明                           |
+| :----------- | :--------------- | :---------------------------------- |
+| database     | database         | 数据库                              |
+| table        | collection       | 数据库表/集合                       |
+| row          | document         | 数据记录行/文档                     |
+| column       | field            | 数据字段/域                         |
+| index        | index            | 索引                                |
+| table joins  |                  | 表连接,MongoDB不支持                |
+| primary key  | primary key      | 主键,MongoDB自动将_id字段设置为主键 |
+
+
+
+
+
+
+
+#### 14.2.2 基本数据类型
+
+##### MongoDB 数据类型
+
+下表为MongoDB中常用的几种数据类型。
+
+| 数据类型           | 描述                                                         |
+| :----------------- | :----------------------------------------------------------- |
+| String             | 字符串。存储数据常用的数据类型。在 MongoDB 中，UTF-8 编码的字符串才是合法的。 |
+| Integer            | 整型数值。用于存储数值。根据你所采用的服务器，可分为 32 位或 64 位。 |
+| Boolean            | 布尔值。用于存储布尔值（真/假）。                            |
+| Double             | 双精度浮点值。用于存储浮点值。                               |
+| Min/Max keys       | 将一个值与 BSON（二进制的 JSON）元素的最低值和最高值相对比。 |
+| Array              | 用于将数组或列表或多个值存储为一个键。                       |
+| Timestamp          | 时间戳。记录文档修改或添加的具体时间。                       |
+| Object             | 用于内嵌文档。                                               |
+| Null               | 用于创建空值。                                               |
+| Symbol             | 符号。该数据类型基本上等同于字符串类型，但不同的是，它一般用于采用特殊符号类型的语言。 |
+| Date               | 日期时间。用 UNIX 时间格式来存储当前日期或时间。你可以指定自己的日期时间：创建 Date 对象，传入年月日信息。 |
+| Object ID          | 对象 ID。用于创建文档的 ID。                                 |
+| Binary Data        | 二进制数据。用于存储二进制数据。                             |
+| Code               | 代码类型。用于在文档中存储 JavaScript 代码。                 |
+| Regular expression | 正则表达式类型。用于存储正则表达式。                         |
+
+
+
+### 14.3 场景
+
+使用场景：
+
+- 高并发，实时插入
+
+- 缓存
+- 用于对象以及json的存储
+
+### 14.4 增删查改
+
+可参考菜鸟教程
+
+###### (1)save和insert
+
+指定数据库名字：
+
+将数据插入数据库
+
+```shell
+// 创建数据库
+> use testdb
+switched to db testdb
+// db.数据库名字.insert
+> db.testdb.insert({"name":"cjc"})
+WriteResult({ "nInserted" : 1 })
+> 
+
+
+```
+
+指定集合的名字：
+
+将数据插入集合
+
+```shell
+> db.createCollection("student")
+{ "ok" : 1 }
+> db.student.insert({"name":"cjc"})
+WriteResult({ "nInserted" : 1 })
+> 
+
+```
+
+
+
+
+
+
+
+### 14.5 与redis的比较
+
+基本类型与sql相差无比，但与redis相比的话，mongodb有集合的概念，可以自增id， **主键,MongoDB自动将_id字段设置为主键**，有索引
+
+
+
+### 14.6 springboot 和 mongodb
+
+springboot提供了`mongoTemplate`和`MongoRepository`
+
+#### 14.6.1 配置
+
+```yml
+spring:
+  data:
+    mongodb:
+      uri: mongodb://192.168.52.138:27017/testdb
+
+  
+
+```
+
+只要我们继承了mongoRepository，我们的方法符合规范，我们就不用自己实现接口，具体规范查看day07
+
+## 15.与医院模拟系统整合
+
+医院系统可以调用我们预约挂号后台系统的接口，进行上传信息或者其他的操作，上传科室接口，上传医院接口，上传排班接口。医院系统先保存自己的医院的信息到数据库，包括医院编号以及signkey签名。点击上传医院，将自己医院的信息上传到预约挂号后台系统。此后医院系统发送任何请求都携带该医院的编号以及该医院的签名。预约挂号后台系统在处理医院系统的请求时，都会判断该医院系统的签名是否有效。
+
+![1617177427421](C:\Users\cjc\AppData\Roaming\Typora\typora-user-images\1617177427421.png)
+
+### 15.1 医院模拟系统
+
+直接复制过来到项目中，应为我们主要不是开发这个系统（项目中的hospital-manage）
+
+医院系统如何调用我们预约挂号系统并发送数据呢
+
+查看医院模拟系统ApiController中的保存操作
+
+```java
+
+	@RequestMapping(value="/hospital/save",method=RequestMethod.POST)
+	public String saveHospital(String data, HttpServletRequest request) {
+		try {
+			apiService.saveHospital(data);
+		} catch (YyghException e) {
+			return this.failurePage(e.getMessage(),request);
+		} catch (Exception e) {
+			return this.failurePage("数据异常",request);
+		}
+		return this.successPage(null,request);
+	}
+```
+
+调用service中的save方法，传入data数据
+
+查看service的save方法
+
+```java
+@Override
+    public boolean saveHospital(String data) {
+        // 
+        // 将json字符串封装为json对象
+        JSONObject jsonObject = JSONObject.parseObject(data);
+
+        
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("hoscode",this.getHoscode());
+        paramMap.put("hosname",jsonObject.getString("hosname"));
+        paramMap.put("hostype",jsonObject.getString("hostype"));
+        paramMap.put("provinceCode",jsonObject.getString("provinceCode"));
+        paramMap.put("cityCode", jsonObject.getString("cityCode"));
+        paramMap.put("districtCode",jsonObject.getString("districtCode"));
+        paramMap.put("address",jsonObject.getString("address"));
+        paramMap.put("intro",jsonObject.getString("intro"));
+        paramMap.put("route",jsonObject.getString("route"));
+        //图片
+        paramMap.put("logoData", jsonObject.getString("logoData"));
+
+        JSONObject bookingRule = jsonObject.getJSONObject("bookingRule");
+        paramMap.put("bookingRule",bookingRule.toJSONString());
+
+        paramMap.put("timestamp", HttpRequestHelper.getTimestamp());
+        paramMap.put("sign", MD5.encrypt(this.getSignKey()));
+
+        // 发送请求，调用预约挂号系统
+        JSONObject respone =
+           HttpRequestHelper.sendRequest(paramMap,this.getApiUrl()+"/api/hosp/saveHospital");
+        System.out.println(respone.toJSONString());
+
+        if(null != respone && 200 == respone.getIntValue("code")) {
+            return true;
+        } else {
+            throw new YyghException(respone.getString("message"), 201);
+        }
+    }
+```
+
+查看`HttpRequestHelper.sendRequest`方法
+
+```java
+public static JSONObject sendRequest(Map<String, Object> paramMap, String url){
+        String result = "";
+        try {
+            //封装post参数
+            StringBuilder postdata = new StringBuilder();
+            for (Map.Entry<String, Object> param : paramMap.entrySet()) {
+                postdata.append(param.getKey()).append("=")
+                        .append(param.getValue()).append("&");
+            }
+            log.info(String.format("--> 发送请求：post data %1s", postdata));
+            byte[] reqData = postdata.toString().getBytes("utf-8");
+            //发送post请求调用 
+            byte[] respdata = HttpUtil.doPost(url,reqData);
+            result = new String(respdata);
+            log.info(String.format("--> 应答结果：result data %1s", result));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return JSONObject.parseObject(result);
+    }
+```
+
+
+
+
+
+### 15.2 上传医院接口
+
+在医院设置的页面中，通过填写表单中的医院code，签名key，预约平台路径，去设置该医院的信息，然后保存到该医院系统的数据库中。
+
+结合尚医通业务流程就比较清晰
+
+功能描述：
+
+​	在医院管理页面中，医院系统可以将自己医院信息添加到预约挂号系统中，在预约挂号系统展示出来
+
+实现:
+
+​	调用预约挂号系统的接口，将医院数据发送到预约挂号系统添加到mongodb中
+
+#### 15.2.1 医院系统添加功能
+
+示例数据:
+
+```json
+{
+  "hoscode": "1000_0",
+  "hosname": "北京协和医院",
+  "hostype": "1",
+  "provinceCode": "110000",
+  "cityCode": "110100",
+  "districtCode": "110102",
+  "address": "大望路",
+  "intro": "北京协和医院是集医疗、教学、科研于一体的大型三级甲等综合医院，是国家卫生计生委指定的全国疑难重症诊治指导中心，也是最早承担高干保健和外宾医疗任务的医院之一，以学科齐全、技术力量雄厚、特色专科突出、多学科综合优势强大享誉海内外。在2010、2011、2012、2013、2014年复旦大学医院管理研究所公布的“中国最佳医院排行榜”中连续五年名列榜首。\n\n医院建成于1921年，由洛克菲勒基金会创办。建院之初，就志在“建成亚洲最好的医学中心”。90余年来，医院形成了“严谨、求精、勤奋、奉献”的协和精神和兼容并蓄的特色文化风格，创立了“三基”、“三严”的现代医学教育理念，形成了以“教授、病案、图书馆”著称的协和“三宝”，培养造就了张孝骞、林巧稚等一代医学大师和多位中国现代医学的领军人物，并向全国输送了大批的医学管理人才，创建了当今知名的10余家大型综合及专科医院。2011年在总结90年发展经验的基础上，创新性提出了“待病人如亲人，提高病人满意度；待同事如家人，提高员工幸福感”新办院理念。\n\n目前，医院共有2个院区、总建筑面积53万平方米，在职职工4000余名、两院院士5人、临床和医技科室53个、国家级重点学科20个、国家临床重点专科29个、博士点16个、硕士点29个、国家级继续医学教育基地6个、二级学科住院医师培养基地18个、三级学科专科医师培养基地15个。开放住院床位2000余张，单日最高门诊量约1.5万人次、年出院病人约8万余人次。被评为“全国文明单位”、“全国创先争优先进基层党组织”、“全国卫生系统先进集体”、“首都卫生系统文明单位”、“最受欢迎三甲医院”，荣获全国五一劳动奖章。同时，医院还承担着支援老少边穷地区、国家重要活动和突发事件主力医疗队的重任，在2008年北京奥运工作中荣获“特别贡献奖”。\n\n90多年来，协和人以执着的医志、高尚的医德、精湛的医术和严谨的学风书写了辉煌的历史，今天的协和人正为打造“国际知名、国内一流”医院的目标而继续努力。",
+  "route": "东院区乘车路线：106、108、110、111、116、684、685路到东单路口北；41、104快、814路到东单路口南；1、52、802路到东单路口西；20、25、37、39路到东单路口东；103、104、420、803路到新东安市场；地铁1、5号线到东单。\n西院区乘车路线：68路到辟才胡同东口；更多乘车路线详见须知。",
+  "logoData": "",
+  "bookingRule": {
+    "cycle": "10",
+    "releaseTime": "08:30",
+    "stopTime": "11:30",
+    "quitDay": "-1",
+    "quitTime": "15:30",
+    "rule": [
+      "西院区预约号取号地点：西院区门诊楼一层大厅挂号窗口取号",
+      "东院区预约号取号地点：东院区老门诊楼一层大厅挂号窗口或新门诊楼各楼层挂号/收费窗口取号"
+    ]
+  }
+}
+```
+
+
+
+controller
+
+```java
+@RequestMapping(value="/hospitalSet/save")
+	public String createHospitalSet(ModelMap model,HospitalSet hospitalSet) {
+		hospitalSetMapper.updateById(hospitalSet);
+		return "redirect:/hospitalSet/index";
+	}
+```
+
+service
+
+```java
+@Override
+    public boolean saveHospital(String data) {
+        JSONObject jsonObject = JSONObject.parseObject(data);
+
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("hoscode",this.getHoscode());
+        paramMap.put("hosname",jsonObject.getString("hosname"));
+        paramMap.put("hostype",jsonObject.getString("hostype"));
+        paramMap.put("provinceCode",jsonObject.getString("provinceCode"));
+        paramMap.put("cityCode", jsonObject.getString("cityCode"));
+        paramMap.put("districtCode",jsonObject.getString("districtCode"));
+        paramMap.put("address",jsonObject.getString("address"));
+        paramMap.put("intro",jsonObject.getString("intro"));
+        paramMap.put("route",jsonObject.getString("route"));
+        //图片
+        paramMap.put("logoData", jsonObject.getString("logoData"));
+
+        JSONObject bookingRule = jsonObject.getJSONObject("bookingRule");
+        paramMap.put("bookingRule",bookingRule.toJSONString());
+
+        paramMap.put("timestamp", HttpRequestHelper.getTimestamp());
+        paramMap.put("sign", MD5.encrypt(this.getSignKey()));
+
+        JSONObject respone =
+                HttpRequestHelper.sendRequest(paramMap,this.getApiUrl()+"/api/hosp/saveHospital");
+        System.out.println(respone.toJSONString());
+
+        if(null != respone && 200 == respone.getIntValue("code")) {
+            return true;
+        } else {
+            throw new YyghException(respone.getString("message"), 201);
+        }
+    }
+
+```
+
+
+
+#### 15.2.2预约挂号系统
+
+过程中会校验签名是否有效，才会进行添加数据
+
+```java
+@PostMapping("/saveHospital")
+    public Result saveHospital(HttpServletRequest request){
+        Map<String, String[]> rquestMap = request.getParameterMap();
+        Map<String, Object> parameterMap = HttpRequestHelper.switchMap(rquestMap);
+        // 判断该医院的数据签名是否一致
+        // 获取签名
+        String signMD5 = (String) parameterMap.get("sign");
+
+        // 根据医院编号查询数据库
+        String hoscode = (String) parameterMap.get("hoscode");
+
+        String signKeyFromPersis =  hospitalSetService.getSignKey(hoscode);
+
+        String signKeyFromPersisMD5 = MD5.encrypt(signKeyFromPersis);
+
+        // 判断签名是否一致
+        if(!signKeyFromPersisMD5.equals(signMD5)){
+            // 抛出签名不一致错误
+            throw new YyghException(ResultCodeEnum.SIGN_ERROR);
+        }
+
+        // 为了数据传输我们将图片进行了base64的编码
+        // 传输过程中"+"会转换为" "空格，所以我们需要转换回来
+        String logoData = (String) parameterMap.get("logoData");
+        logoData = logoData.replace(" ","+");
+        parameterMap.put("logoData",logoData);
+
+        hospitalService.save(parameterMap);
+        return Result.ok();
+    }
+```
+
+`hospitalService.save(parameterMap)`
+
+将医院添加到mongodb中
+
+```java
+@Override
+    public void save(Map<String, Object> parameterMap) {
+
+        // 将参数mapper转换为对象
+        String mapString = JSONObject.toJSONString(parameterMap);
+
+        Hospital hospital = JSONObject.parseObject(mapString, Hospital.class);
+
+        // 判断数据是否存在
+        String hoscode = hospital.getHoscode();
+        Hospital existHospital = hospitalRepository.getHospitalByHoscode(hoscode);
+        // 存在，更新
+        if(existHospital!=null){
+            hospital.setStatus(existHospital.getStatus());
+            hospital.setCreateTime(existHospital.getCreateTime());
+            hospital.setUpdateTime(new Date());
+            hospital.setIsDeleted(0);
+
+            hospitalRepository.save(hospital);
+        }else {
+            // 不存在，保存
+            hospital.setStatus(0);
+            hospital.setCreateTime(new Date());
+            hospital.setUpdateTime(new Date());
+            hospital.setIsDeleted(0);
+            hospitalRepository.save(hospital);
+
+        }
+    }
+```
+
+
+
+### 15.3查询医院
+
+在医院系统的医院管理页面可以查询到，之前在医院系统中添加的医院信息，也就是自己医院的信息
+
+#### 15.3.1医院系统
+
+apiController
+
+与前面的上传的思路一样
+
+通过调用预约挂号平台的接口去获取该医院的信息，然后在医院系统的医院管理页面进行渲染
+
+```java
+@RequestMapping("/hospital/index")
+	public String getHospital(ModelMap model,HttpServletRequest request,RedirectAttributes redirectAttributes) {
+		try {
+			HospitalSet hospitalSet = hospitalSetMapper.selectById(1);
+			if(null == hospitalSet || StringUtils.isEmpty(hospitalSet.getHoscode()) || StringUtils.isEmpty(hospitalSet.getSignKey())) {
+				this.failureMessage("先设置医院code与签名key", redirectAttributes);
+				return "redirect:/hospitalSet/index";
+			}
+
+            // 调用接口apiService.getHospital()，service不详细说明
+			model.addAttribute("hospital", apiService.getHospital());
+		} catch (YyghException e) {
+			this.failureMessage(e.getMessage(), request);
+		} catch (Exception e) {
+			this.failureMessage("数据异常", request);
+		}
+		return "hospital/index";
+	}
+```
+
+
+
+#### 15.3.2预约挂号系统
+
+获取医院系统请求中的医院编号可以在mongodb中查找出该医院的信息
+
+controller
+
+```java
+@PostMapping("/hospital/show")
+    public Result getHospital(HttpServletRequest request){
+        Map<String, Object> parameterMap = HospitalUtils.getParameterMap(request);
+        String targetSignKey = (String) parameterMap.get("sign");
+        String hoscode = (String) parameterMap.get("hoscode");
+        String signKeySource = hospitalSetService.getSignK
+            ey(hoscode);
+
+        // 如果签名一致
+
+        if (!HospitalUtils.isSignKeyValidated(targetSignKey, signKeySource)) {
+            log.error("上传医院失败，签名不一致");
+            throw new YyghException(ResultCodeEnum.SIGN_ERROR);
+        }
+        // 执行操作
+        Hospital hospital = hospitalService.getByHoscode(hoscode);
+        // 返回result
+        return Result.ok(hospital);
+
+    }
+```
+
+service
+
+```java
+/**
+     * 根据hoscode查找医院
+     * @param hoscode
+     */
+    @Override
+    public Hospital getByHoscode(String hoscode) {
+        Hospital hospitalByHoscode = hospitalRepository.getHospitalByHoscode(hoscode);
+        return hospitalByHoscode;
+    }
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 15.4上传科室
+
+在医院系统点击添加科室，输入以下示例数据，将数据发送到预约挂号系统中，保存到mongodb中
+
+示例数据
+
+```json
+[
+{"hoscode":"1000_8","depcode":"200050923","depname":"门诊部核酸检测门诊(东院)","intro":"门诊部核酸检测门诊(东院)","bigcode":"44f162029abb45f9ff0a5f743da0650d","bigname":"全部科室"},
+{"hoscode":"1000_8","depcode":"200050924","depname":"国际医疗部门诊","intro":"国际医疗部门诊","bigcode":"44f162029abb45f9ff0a5f743da0650d","bigname":"全部科室"},
+{"hoscode":"1000_8","depcode":"200050931","depname":"临床营养科(西院国际医疗)","intro":"临床营养科(西院国际医疗)","bigcode":"44f162029abb45f9ff0a5f743da0650d","bigname":"全部科室"}
+]
+```
+
+
+
+#### 15.4.1医院系统
+
+```java
+@RequestMapping(value="/department/save",method=RequestMethod.POST)
+	public String save(String data, HttpServletRequest request) {
+		try {
+			apiService.saveDepartment(data);
+		} catch (YyghException e) {
+			return this.failurePage(e.getMessage(),request);
+		} catch (Exception e) {
+			return this.failurePage("数据异常",request);
+		}
+		return this.successPage(null,request);
+	}
+```
+
+service
+
+```java
+ @Override
+    public boolean saveDepartment(String data) {
+        JSONArray jsonArray = new JSONArray();
+        if(!data.startsWith("[")) {
+            JSONObject jsonObject = JSONObject.parseObject(data);
+            jsonArray.add(jsonObject);
+        } else {
+            jsonArray = JSONArray.parseArray(data);
+        }
+
+        // 发送多个科室
+        for(int i=0, len=jsonArray.size(); i<len; i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("hoscode",this.getHoscode());
+            paramMap.put("depcode",jsonObject.getString("depcode"));
+            paramMap.put("depname",jsonObject.getString("depname"));
+            paramMap.put("intro",jsonObject.getString("intro"));
+            paramMap.put("bigcode", jsonObject.getString("bigcode"));
+            paramMap.put("bigname",jsonObject.getString("bigname"));
+
+            paramMap.put("timestamp", HttpRequestHelper.getTimestamp());
+            paramMap.put("sign",MD5.encrypt(this.getSignKey()));
+            // 发送请求
+            JSONObject respone = HttpRequestHelper.sendRequest(paramMap,this.getApiUrl()+"/api/hosp/saveDepartment");
+            System.out.println(respone.toJSONString());
+
+            if(null == respone || 200 != respone.getIntValue("code")) {
+                throw new YyghException(respone.getString("message"), 201);
+            }
+        }
+        return true;
+    }
+ @Override
+    public boolean saveDepartment(String data) {
+        JSONArray jsonArray = new JSONArray();
+        if(!data.startsWith("[")) {
+            JSONObject jsonObject = JSONObject.parseObject(data);
+            jsonArray.add(jsonObject);
+        } else {
+            jsonArray = JSONArray.parseArray(data);
+        }
+
+        // 发送多个科室
+        for(int i=0, len=jsonArray.size(); i<len; i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("hoscode",this.getHoscode());
+            paramMap.put("depcode",jsonObject.getString("depcode"));
+            paramMap.put("depname",jsonObject.getString("depname"));
+            paramMap.put("intro",jsonObject.getString("intro"));
+            paramMap.put("bigcode", jsonObject.getString("bigcode"));
+            paramMap.put("bigname",jsonObject.getString("bigname"));
+
+            paramMap.put("timestamp", HttpRequestHelper.getTimestamp());
+            paramMap.put("sign",MD5.encrypt(this.getSignKey()));
+            // 发送请求
+            JSONObject respone = HttpRequestHelper.sendRequest(paramMap,this.getApiUrl()+"/api/hosp/saveDepartment");
+            System.out.println(respone.toJSONString());
+
+            if(null == respone || 200 != respone.getIntValue("code")) {
+                throw new YyghException(respone.getString("message"), 201);
+            }
+        }
+        return true;
+    }
+
+```
+
+#### 15.4.2预约挂号系统
+
+```java
+ @PostMapping("/saveDepartment")
+    public Result saveDepartment(HttpServletRequest request){
+
+        ParameterWrapper parameterWrapper = ParameterWrapper.build(request);
+        Department department = parameterWrapper.toObject(Department.class);
+//        String hoscode = parameterWrapper.getParameter("hoscode");
+//        String signMD5 = parameterWrapper.getParameter("sign");
+        String hospcode = parameterWrapper.getHospcode();
+        String signMD5 = parameterWrapper.getSignKey();
+        String signKey = hospitalSetService.getSignKey(hospcode);
+        // 判断签名是否一致
+        parameterWrapper.isSignKeyValidated(signMD5,signKey);
+        departmentService.save(department);
+        log.info("上传医院成功!");
+        return Result.ok();
+    }
+```
+
+service
+
+```java
+public boolean save(Department department) {
+        try{
+
+            Department departmentFromMongo = departmentRepository.getDepartmentByHoscodeAndDepcode(department.getHoscode(), department.getDepcode());
+            if(departmentFromMongo!=null){
+                departmentFromMongo.setUpdateTime(new Date());
+                departmentFromMongo.setIsDeleted(0);
+                departmentRepository.save(departmentFromMongo);
+            }else{
+                department.setCreateTime(new Date());
+                department.setUpdateTime(new Date());
+                department.setIsDeleted(0);
+                departmentRepository.save(department);
+            }
+
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+```
+
+
+
+### 15.5查询科室与删除科室
+
+完成
+
+### 15.6 排班查询与删除
+
+完成
+
+
+
+## 16.backTo预约挂号后台管理系统
+
+### 16.1在医院列表中查看详情
+
+在此前，医院系统通过医院管理页面中的添加功能，将其医院的详细信息上传到预约挂号后台管理系统，保存到mongodb中。在预约挂号后台管理系统中，在医院列表中点击查看详情，可以查看该医院的详情信息
+
+在mongodb中查询出对应的医院详情，以显示。
+
+但有一个问题，该医院信息保存到mongodb中，其中医院等级编号为数据，当我们显示时需要显示为文字（比如1为三甲医院），也就是说**service-hosp模块需要调用service-cmn中的接口去获取数据字典中对应的数据。**
+
+#### 16.1.1 使用远程调用service-cmn
+
+`注册中心：nacos`
+
+`远程调用：`
+
+##### 16.1.1.1 nacos注册中心
+
+安装nacos
+
+- 下载nacos-server
+- 双击startup.sh
+
+访问：localhost:8848/nacos
+
+用户名密码：nacos
+
+依赖
+
+```xml
+<dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+```
+
+配置
+
+```yml
+cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+```
+
+在启动类中配置注解
+
+`@EnableDiscoveryClient`
+
+```java
+@SpringBootApplication
+@ComponentScan(value = "com.cjc")
+@MapperScan("com.cjc.syt.hosp.mapper")
+@EnableDiscoveryClient
+public class ServiceHospApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ServiceHospApplication.class,args);
+    }
+}
+
+```
+
+完成，即可注册服务
+
+##### 16.1.1.2 远程调用feign
+
+###### service-hosp创建controller
+
+```java
+/**
+     * 查询医院了列表
+     */
+    @GetMapping("/list/{page}/{limit}")
+    public Result getList(@PathVariable("page") int page,
+                          @PathVariable("limit") int limit
+    , HospitalQueryVo hospitalSetQueryVo){
+        Page<Hospital> pageModel = hospitalService.selectHospPage(page,limit,hospitalSetQueryVo);
+        return Result.ok(pageModel);
+    }
+```
+
+
+
+###### service-cmn提供接口
+
+提供接口查询数据字典
+
+```java
+/**
+     * 根据dictCode和value查询
+     * @param dictCode
+     * @param value
+     * @return
+     */
+    @GetMapping("/getName/{dictCode}/{value}")
+    public String getName(@PathVariable String dictCode,
+                          @PathVariable String value){
+        String dictName = dictService.getDictName(dictCode,value);
+        return dictName;
+    }
+
+    /**
+     * 根据value查询
+     * @param value
+     * @return
+     */
+    @GetMapping("/getName/{value}")
+    public String getName(@PathVariable String value){
+        String dictName = dictService.getDictName("",value);
+        return dictName;
+    }
+```
+
+
+
+**做远程调用**
+
+创建远程调用接口模块
+
+service_client.service_cmn_client
+
+`@FeignClient("service-cmn")`表示在注册中心钟找service-cmn模块进行注入
+
+```java
+@FeignClient("service-cmn")
+public interface DictFeignClient {
+
+    /**
+     * 根据dictCode和value查询
+     * @param dictCode
+     * @param value
+     * @return
+     */
+    @GetMapping("/admin/cmn/dict/getName/{dictCode}/{value}")
+    public String getName(@PathVariable("dictCode") String dictCode,
+                          @PathVariable("value") String value);
+
+    /**
+     * 根据value查询
+     * @param value
+     * @return
+     */
+    @GetMapping("/admin/cmn/dict/getName/{value}")
+    public String getName(@PathVariable("value") String value);
+
+
+}
+```
+
+###### service_hosp调用
+
+引入service_cmn_client依赖
+
+`@EnableDiscoveryClient`开启搜索客户端`@EnableFeignClients(basePackages = "com.cjc")`扫描引入的feignclient模块（service_cmn_client）
+
+```java
+@SpringBootApplication
+@ComponentScan(value = "com.cjc")
+@MapperScan("com.cjc.syt.hosp.mapper")
+@EnableDiscoveryClient
+@EnableFeignClients(basePackages = "com.cjc")
+public class ServiceHospApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ServiceHospApplication.class,args);
+    }
+}
+
+```
+
+
+
+#### 16.1.2前端页面显示
+
+##### 搜索框
+
+搜索医院查询框，通过省市，医院名称查询
+
+问题：当用户在查询框中，选选择省，然后再显示该省的市，然后用户选择市
+
+后端：当选择省时，查询该省下的市，进行显示
+
+获取省份接口以及获取市区接口
+
+service_hosp模块
+
+HospitalController
+
+```java
+ /**
+     * 获取省份
+     * @return
+     */
+    @GetMapping("/get/province/list")
+    @ApiOperation(value = "获取省份")
+    public Result getProvinceList(){
+        return hospitalService.getProvince();
+    }
+
+    @GetMapping("/get/city/list/by/{provinceId}")
+    @ApiOperation(value = "根据省份id获取对应市区列表")
+    public Result getCityList(@PathVariable("provinceId") long provinceId){
+        return hospitalService.getCityListByProvinceId(provinceId);
+    }
+```
+
+service
+
+```java
+@Override
+    public Result getProvince() {
+        long provinceId = 86;
+        return dictFeignClient.findChildrenData(provinceId);
+    }
+
+    @Override
+    public Result getCityListByProvinceId(long provinceId) {
+        return dictFeignClient.findChildrenData(provinceId);
+    }
+```
+
+远程接口
+
+```java
+@GetMapping("/admin/cmn/dict/find/children/data/{id}")
+public Result findChildrenData(@PathVariable("id")Long id);
+```
+
+##### 前端显示搜索框
+
+##### 显示数据
+
+显示 医院logo，医院名称，医院类型，医院详细地址，状态，创建时间以及操作
+
+##### 操作
+
+######  设置状态 
+
+设置状态，状态为已上线，那么预约挂号平台就显示该医院，供用户进行预约挂号。
+
+
+
+###### 查看医院详情
+
+跳转到医院详情页面
+
+简单，但有一个问题就是，接口返回的hospital中还有bookingRule对象，如果直接将返回的hospital赋值给data中的hospital：{} ,然后在前端页面通过hospital.bookingrule调用会出现错误。
+
+解决方法：
+
+接口返回map<String,Object>，将bookingrule和hospital放入map中，返回，然后前端调用。
+
+### 收获
+
+springboot与mongodb的整合
+
+两个系统之间的接口调用，需要设置签名，保存到双方的系统中，通过判断签名是否一致，来判断该请求是否有效
 

@@ -1,6 +1,7 @@
 package com.cjc.syt.cmn.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cjc.syt.cmn.DictEeVo;
 import com.cjc.syt.common.result.Result;
 import com.cjc.syt.model.cmn.Dict;
 import org.apache.http.HttpResponse;
@@ -24,4 +25,13 @@ public interface DictService extends IService<Dict> {
     public void exportDict(HttpServletResponse response) throws IOException;
 
     void importData(MultipartFile file) throws IOException;
+
+    String getDictName(String dictCode, String value);
+
+    /**
+     * 根据父id查询id
+     * @param province_id
+     * @return
+     */
+
 }
