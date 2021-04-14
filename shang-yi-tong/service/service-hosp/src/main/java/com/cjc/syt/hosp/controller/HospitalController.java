@@ -26,7 +26,7 @@ import java.util.Map;
  **/
 @RestController
 @RequestMapping("/admin/hosp/hospital")
-@CrossOrigin
+//@CrossOrigin
 @Slf4j
 public class HospitalController {
 

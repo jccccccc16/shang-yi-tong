@@ -1,0 +1,25 @@
+server:
+  port: 80
+spring:
+  application:
+    name: service-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+#        使用服务发现路由
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: service-hosp
+          uri: lb://service-hosp
+          predicates: Path=/*/hosp/**
+        - id: service-cmn
+          uri: lb://service-cmn
+          predicates: Path=/*/cmn/**
+#--------------Feign负载均衡配置 配置全局超时时间 毫秒单位   根据业务酌情配置
+#ribbon:
+#  ConnectTimeout: 5000 #请求连接的超时时间，默认时间为1秒
+#  ReadTimeout: 5000 #请求处理的超时时间

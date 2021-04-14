@@ -77,6 +77,14 @@ export const constantRouterMap = [
         meta: { title: '医院详情', icon: 'tree' },
         hidden: true
       },
+      {
+        path: 'hosp/dept/:hoscode',
+        name: '科室列表',
+        component: () => import('@/views/department/list'),
+        meta: { title: '科室列表', icon: 'tree' },
+        hidden: true
+      },
+
 
 
     ]

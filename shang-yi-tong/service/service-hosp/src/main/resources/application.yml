@@ -77,7 +77,7 @@ spring:
 #      port: 27017
 #      database: syt_hosp
   rabbitmq:
-    host: 192.168.52.151
+    host: 192.168.52.138
     port: 5672
     username: guest
     password: guest

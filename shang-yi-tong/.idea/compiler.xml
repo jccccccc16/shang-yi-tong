@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="service_gateway" />
         <module name="service-cmn" />
         <module name="common-util" />
         <module name="gennerator" />
@@ -29,6 +30,7 @@
       <module name="service-util" target="1.8" />
       <module name="service_client" target="1.8" />
       <module name="service_cmn_client" target="1.8" />
+      <module name="service_gateway" target="1.8" />
       <module name="shang-yi-tong" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -45,6 +47,7 @@
       <module name="service-util" options="-parameters" />
       <module name="service_client" options="-parameters" />
       <module name="service_cmn_client" options="-parameters" />
+      <module name="service_gateway" options="-parameters" />
       <module name="shang-yi-tong" options="-parameters" />
     </option>
   </component>

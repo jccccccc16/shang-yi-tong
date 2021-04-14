@@ -4,6 +4,9 @@ import com.cjc.syt.model.hosp.Schedule;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: cjc
@@ -14,4 +17,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ScheduleRepository extends MongoRepository<Schedule,String> {
     Schedule getScheduleByHoscodeAndHosScheduleId(String hospcode, String hosScheduleId);
+
+    List<Schedule> findScheduleByHoscodeAndDepcodeAndWorkDate(String hoscode, String depcodem, Date toDate);
 }

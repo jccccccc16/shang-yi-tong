@@ -15,4 +15,6 @@ import org.springframework.stereotype.Repository;
 public interface DepartmentRepository extends MongoRepository<Department,String> {
 
     Department getDepartmentByHoscodeAndDepcode(String hoscode, String depcode);
+
+
 }

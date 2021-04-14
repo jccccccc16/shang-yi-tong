@@ -2276,6 +2276,118 @@ public Result findChildrenData(@PathVariable("id")Long id);
 
 接口返回map<String,Object>，将bookingrule和hospital放入map中，返回，然后前端调用。
 
+
+
+### 16.2 查看科室以及该科室的排班
+
+前端页面：
+
+在医院列表页面中，点击查看排班，查看该医院的排班
+
+科室页面：
+
+左边以树形显示科室，点击大科室，然后显示大科室以下的小科室
+
+当点击小科室时，左边显示该该科室的排班情况
+
+
+
+后端接口：
+
+根据hoscode查询该医院对应的科室
+
+根据科室查找对应的排班情况
+
+
+
+### 16.3 某一时间的排班详情
+
+使用mongo的聚合查询
+
+
+
+## 16.4 整合网关
+
+spring coud gateway代替zuul
+
+跨域请求可以统一处理
+
+### 16.4.1 gateway
+
+创建一个新的模块
+
+依赖
+
+```xml
+<dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+        <!-- 服务注册 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+```
+
+配置
+
+```yml
+server:
+  port: 80
+spring:
+  application:
+    name: service-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+#        使用服务发现路由
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: service-hosp
+          uri: lb://service-hosp
+          predicates: Path=/*/hosp/**
+        - id: service-cmn
+          uri: lb://service-cmn
+          predicates: Path=/*/cmn/**
+```
+
+
+
+### 16.4..2 统一解决跨域问题
+
+注释掉之前在controller上的@CrossOrigin注解
+
+```java
+@Configuration
+public class CorsConfig {
+
+    @Bean
+    public CorsWebFilter corsWebFilter(){
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedHeader("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**",corsConfiguration);
+        return new CorsWebFilter( source);
+
+    }
+
+}
+
+```
+
+# 17.用户前端系统
+
+nuxt：服务端渲染技术，基于vue
+
+下载nuxt安装包，解压
+
 ### 收获
 
 springboot与mongodb的整合

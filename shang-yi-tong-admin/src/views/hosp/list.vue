@@ -42,6 +42,10 @@
               <el-button type="primary" size="mini"
                        icon="el-icon-delete">查看详情</el-button>
             </router-link>
+            <router-link :to="'/hospSet/hosp/dept/'+scope.row.hoscode">
+              <el-button type="primary" size="mini"
+                         icon="el-icon-delete">查看排班</el-button>
+            </router-link>
             <el-button type="success" size="mini"
                        icon="el-icon-delete" @click="updateHospitalStatus(scope.row.id,scope.row.status)">修改状态</el-button>
           </template>

@@ -1,5 +1,6 @@
 package com.cjc.syt.hosp.service.impl;
 
+
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cjc.syt.hosp.mapper.DepartmentMapper;
@@ -7,6 +8,7 @@ import com.cjc.syt.hosp.repository.DepartmentRepository;
 import com.cjc.syt.hosp.service.DepartmentService;
 import com.cjc.syt.model.hosp.Department;
 import com.cjc.syt.vo.hosp.DepartmentQueryVo;
+import com.cjc.syt.vo.hosp.DepartmentVo;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -17,8 +19,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -86,4 +88,55 @@ public class DepartmentServiceImpl  implements DepartmentService  {
         }
 
     }
+
+    @Override
+    public List<DepartmentVo> getDepartmentTree(String hoscode) {
+        // 查询出所有的部门
+        Department department = new Department();
+        department.setHoscode(hoscode);
+        Example<Department> example = Example.of(department);
+        List<Department> departmentList = departmentRepository.findAll(example);
+
+        // 键为bigcode，以bigcode为分组
+        Map<String, List<Department>> collect = departmentList.stream().collect(Collectors.groupingBy(Department::getBigcode));
+
+
+        // 定义返回结果
+        ArrayList<DepartmentVo> result = new ArrayList<>();
+        for(Map.Entry<String,List<Department>> entry:collect.entrySet()){
+
+            String bigcode = entry.getKey();
+
+            List<Department> childrenList = entry.getValue();
+
+            // 封装为一个大科室
+            DepartmentVo parentDepartment = new DepartmentVo();
+            parentDepartment.setDepcode(bigcode);
+            parentDepartment.setDepname(childrenList.get(0).getBigname());
+
+
+            // 封装小科室
+            ArrayList<DepartmentVo> childrenDepartments = new ArrayList<DepartmentVo>();
+            for (Department children : childrenList) {
+
+                DepartmentVo childrenVo = new DepartmentVo();
+                childrenVo.setDepname(children.getDepname());
+                childrenVo.setDepcode(children.getDepcode());
+                childrenDepartments.add(childrenVo);
+            }
+
+            parentDepartment.setChildren(childrenDepartments);
+            result.add(parentDepartment);
+        }
+
+        return result;
+    }
+
+    @Override
+    public String getDepnameByHoscodeAndDepcode(String hoscode, String depcode) {
+        Department department = departmentRepository.getDepartmentByHoscodeAndDepcode(hoscode, depcode);
+        return department.getDepname();
+    }
+
+
 }
