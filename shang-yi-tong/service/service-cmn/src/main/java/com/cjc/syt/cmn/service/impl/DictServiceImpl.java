@@ -121,6 +121,17 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         }
     }
 
+    @Override
+    public List<Dict> findByDictCode(String dictCode) {
+        QueryWrapper<Dict> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("dict_code",dictCode);
+        Dict dict = dictMapper.selectOne(queryWrapper);
+        QueryWrapper<Dict> dictQueryWrapper = new QueryWrapper<>();
+        dictQueryWrapper.eq("parent_id",dict.getId());
+        List<Dict> dictList = dictMapper.selectList(dictQueryWrapper);
+        return dictList;
+    }
+
     /**
      * 是否有子数据
      * @param id

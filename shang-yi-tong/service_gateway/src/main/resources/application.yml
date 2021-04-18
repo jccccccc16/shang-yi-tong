@@ -19,6 +19,9 @@ spring:
         - id: service-cmn
           uri: lb://service-cmn
           predicates: Path=/*/cmn/**
+        - id: service-user
+          uri: lb://service-user
+          predicates: Path=/*/user/**
 #--------------Feign负载均衡配置 配置全局超时时间 毫秒单位   根据业务酌情配置
 #ribbon:
 #  ConnectTimeout: 5000 #请求连接的超时时间，默认时间为1秒

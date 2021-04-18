@@ -43,6 +43,12 @@ public class DictController {
 
     }
 
+    @ApiOperation(value = "根据dictCode获取下级节点的")
+    @GetMapping("/findByDictCode/{dictCode}")
+    public Result findByDictCode(@PathVariable String dictCode){
+        List<Dict> list = dictService.findByDictCode(dictCode);
+        return Result.ok(list);
+    }
     /**
      * 导出数据字典接口
      * @return

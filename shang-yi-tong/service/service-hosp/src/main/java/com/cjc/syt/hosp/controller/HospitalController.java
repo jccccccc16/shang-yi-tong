@@ -62,6 +62,7 @@ public class HospitalController {
         return hospitalService.getCityListByProvinceId(provinceId);
     }
 
+    @ApiOperation(value = "更改医院状态")
     @GetMapping("/update/hospital/{status}/by/{id}")
     public Result updateHospital(@PathVariable("status") Integer status,
                                  @PathVariable("id")String id){

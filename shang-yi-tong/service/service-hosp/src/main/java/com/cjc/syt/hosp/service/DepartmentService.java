@@ -33,4 +33,6 @@ public interface DepartmentService {
 
 
     String getDepnameByHoscodeAndDepcode(String hoscode, String depcode);
+
+
 }

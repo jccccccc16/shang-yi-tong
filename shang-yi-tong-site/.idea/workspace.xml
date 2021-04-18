@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b194a892-18b3-4783-9d09-e588c91c0ec5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.editorconfig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.eslintrc.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shang-yi-tong-site.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/dict.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/hosp.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/sms.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/userInfo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/css/app.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/css/chunk.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/css/hospital.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/css/hospital_personal.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/css/iconfont.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/css/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/css/main.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/css/personal.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/css/reset.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/web-banner1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/AppLogo.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/layouts/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/layouts/default.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/layouts/myFooter.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/layouts/myHeader.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/middleware/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nuxt.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/hospital/_hoscode.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/hospital/detail/_hoscode.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/hospital/notice/_hoscode.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plugins/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plugins/myPlugin.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/store/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/request.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/src/main/java/com/cjc/yygh/user/UserInfoApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/src/main/java/com/cjc/yygh/user/api/UserInfoApiController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/src/main/java/com/cjc/yygh/user/config/UserInfoConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/src/main/java/com/cjc/yygh/user/mapper/UserInfoMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/src/main/java/com/cjc/yygh/user/service/UserInfoService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/src/main/java/com/cjc/yygh/user/service/impl/UserInfoServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/src/main/resources/mapper/UserInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/target/classes/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/target/classes/com/cjc/yygh/user/UserInfoApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/target/classes/com/cjc/yygh/user/api/UserInfoApiController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/target/classes/com/cjc/yygh/user/config/UserInfoConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/target/classes/com/cjc/yygh/user/mapper/UserInfoMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/target/classes/com/cjc/yygh/user/service/UserInfoService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/target/classes/com/cjc/yygh/user/service/impl/UserInfoServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service-user/target/classes/mapper/UserInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/src/main/java/com/cjc/syt/hosp/controller/api/HospApiController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/target/classes/com/cjc/syt/hosp/controller/api/HospApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/common/common-util/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/common/common-util/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/service-cmn.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/service-cmn.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/src/main/java/com/cjc/syt/cmn/controller/DictController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/src/main/java/com/cjc/syt/cmn/controller/DictController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/src/main/java/com/cjc/syt/cmn/service/DictService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/src/main/java/com/cjc/syt/cmn/service/DictService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/src/main/java/com/cjc/syt/cmn/service/impl/DictServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/src/main/java/com/cjc/syt/cmn/service/impl/DictServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/target/classes/com/cjc/syt/cmn/controller/DictController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/target/classes/com/cjc/syt/cmn/controller/DictController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/target/classes/com/cjc/syt/cmn/service/DictService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/target/classes/com/cjc/syt/cmn/service/DictService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/target/classes/com/cjc/syt/cmn/service/impl/DictServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-cmn/target/classes/com/cjc/syt/cmn/service/impl/DictServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/service-hosp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/service-hosp.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/src/main/java/com/cjc/syt/hosp/controller/HospitalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/src/main/java/com/cjc/syt/hosp/controller/HospitalController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/src/main/java/com/cjc/syt/hosp/repository/HospitalRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/src/main/java/com/cjc/syt/hosp/repository/HospitalRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/src/main/java/com/cjc/syt/hosp/service/DepartmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/src/main/java/com/cjc/syt/hosp/service/DepartmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/src/main/java/com/cjc/syt/hosp/service/HospitalService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/src/main/java/com/cjc/syt/hosp/service/HospitalService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/src/main/java/com/cjc/syt/hosp/service/impl/DepartmentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/src/main/java/com/cjc/syt/hosp/service/impl/DepartmentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/src/main/java/com/cjc/syt/hosp/service/impl/HospitalServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/src/main/java/com/cjc/syt/hosp/service/impl/HospitalServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/target/classes/com/cjc/syt/hosp/controller/HospitalController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/target/classes/com/cjc/syt/hosp/controller/HospitalController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/target/classes/com/cjc/syt/hosp/repository/HospitalRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/target/classes/com/cjc/syt/hosp/repository/HospitalRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/target/classes/com/cjc/syt/hosp/service/HospitalService.class" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/target/classes/com/cjc/syt/hosp/service/HospitalService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/target/classes/com/cjc/syt/hosp/service/impl/HospitalServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service-hosp/target/classes/com/cjc/syt/hosp/service/impl/HospitalServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service/service.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service/service.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service_gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service_gateway/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../shang-yi-tong/service_gateway/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../shang-yi-tong/service_gateway/target/classes/application.yml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Vue Single File Component" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="C:\Program Files\software\dev\JetBrains\IntelliJ IDEA 2020.2.2\plugins\maven\lib\maven3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1rBe7CTkzoJZkP7tNQXDEpBj8zZ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/layouts" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+    <property name="vuejs.nuxt.types-notification-shown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\学习资料\1Studentdemo\demo\shang-yi-tong\shang-yi-tong-site\layouts" />
+      <recent name="D:\学习资料\1Studentdemo\demo\shang-yi-tong\shang-yi-tong-site\pages" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b194a892-18b3-4783-9d09-e588c91c0ec5" name="Default Changelist" comment="" />
+      <created>1618453745377</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1618453745377</updated>
+      <workItem from="1618453750410" duration="5538000" />
+      <workItem from="1618487114928" duration="7320000" />
+      <workItem from="1618501184216" duration="2888000" />
+      <workItem from="1618566266902" duration="3952000" />
+      <workItem from="1618623867886" duration="4085000" />
+      <workItem from="1618648459454" duration="6425000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="896" y="346" key="#ESLint" timestamp="1618454939825">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="896" y="346" key="#ESLint/0.0.1536.864@0.0.1536.864" timestamp="1618454939825" />
+    <state width="1140" height="187" key="GridCell.Tab.0.bottom" timestamp="1618669576284">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1140" height="187" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1618669576284" />
+    <state width="1140" height="187" key="GridCell.Tab.0.center" timestamp="1618669576284">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1140" height="187" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1618669576284" />
+    <state width="1140" height="187" key="GridCell.Tab.0.left" timestamp="1618669576284">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1140" height="187" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1618669576284" />
+    <state width="1140" height="187" key="GridCell.Tab.0.right" timestamp="1618669576284">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1140" height="187" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1618669576284" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1618661217831">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="498" height="446" key="SwitcherDM/0.0.1536.864@0.0.1536.864" timestamp="1618661217831" />
+    <state x="425" y="197" key="run.anything.popup" timestamp="1618664177820">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="425" y="197" key="run.anything.popup/0.0.1536.864@0.0.1536.864" timestamp="1618664177820" />
+  </component>
+</project>

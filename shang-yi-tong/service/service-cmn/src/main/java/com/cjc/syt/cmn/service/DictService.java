@@ -28,6 +28,8 @@ public interface DictService extends IService<Dict> {
 
     String getDictName(String dictCode, String value);
 
+    List<Dict> findByDictCode(String dictCode);
+
     /**
      * 根据父id查询id
      * @param province_id

@@ -152,6 +152,27 @@ public class HospitalServiceImpl extends ServiceImpl<HospitalMapper, Hospital> i
         return data;
     }
 
+    @Override
+    public List<Hospital> findByHosname(String hosname) {
+
+        return hospitalRepository.findHospitalByHosnameLike(hosname);
+    }
+
+    /**
+     * 获取预约挂号详情
+     * @param hoscode
+     * @return
+     */
+    @Override
+    public Map<String, Object> item(String hoscode) {
+        HashMap<String, Object> result = new HashMap<>();
+        Hospital hospitalByHoscode = hospitalRepository.getHospitalByHoscode(hoscode);
+        Hospital hospital = this.setHospitalHosType(hospitalByHoscode);
+        result.put("hospital",hospital);
+        result.put("bookingRule",hospital.getBookingRule());
+        return result;
+    }
+
 
     //获取查询list集合，遍历进行医院等级封装
     private Hospital setHospitalHosType(Hospital hospital) {

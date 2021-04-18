@@ -48,4 +48,18 @@ public interface HospitalService {
      * @return
      */
     Map<String,Object>  getHospitalDetails(String id);
+
+    /**
+     * 模糊查询
+     * @param hosname
+     * @return
+     */
+    List<Hospital> findByHosname(String hosname);
+
+    /**
+     * 获取预约挂号详情
+     * @param hoscode
+     * @return
+     */
+    Map<String, Object> item(String hoscode);
 }
